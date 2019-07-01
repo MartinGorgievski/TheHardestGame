@@ -43,6 +43,7 @@ namespace TheHardestGame
                 item.MoveBall();
                 Invalidate(true);
             }
+            checkFinish(gameDoc.square.X, gameDoc.square.Y);
         }
         private void Level1_Paint(object sender, PaintEventArgs e)
         {
@@ -57,38 +58,74 @@ namespace TheHardestGame
             gameDoc.DrawSquare(e.Graphics);
             gameDoc.square.DrawFinish(e.Graphics);
         }
+
+        public bool checkDeath(float x, float y)
+        {
+            foreach (Ball b in gameDoc.balls)
+            {
+                if ((b.Position.X + b.Radius >= x && b.Position.X - b.Radius <= x) && (b.Position.Y + b.Radius >= y -10 && b.Position.Y - b.Radius <= y))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
         public void checkFinish(float x, float y)
         {
-            if(x  >= 631 && x <= 662 && y >= 251 && y <= 282)
+            if (checkDeath(x, y))
+            {
+                timer.Stop();
+                gameDoc.Fails += 1;
+                gameDoc.square.Position = new Point(162, 162);
+                timer.Start();
+            }
+            if(x > 617 && x < 662 && y > 237 && y < 282)
             {
                 timer.Stop();
                 string message = "BRAVO!";
                 var rez = MessageBox.Show(message);
+                if (rez == DialogResult.OK)
+                {
+                    panelStart.Enabled = true;
+                    panelStart.Show();
+                    gameDoc.TimePast = 0;
+                    gameDoc.Fails = 0;
+                    gameDoc.square.Position = new Point(162, 162);
+                    lblFails.Text = "Fails: 0";
+                    Time.Text = "00:00";
+                    panel1.Enabled = false;
+                    panel1.Hide();
+                }
             }
         }
         private void Level1_KeyDown(object sender, KeyEventArgs e)
         {
             
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up && gameDoc.square.canUp())
             {
                gameDoc.square.Move(Direction.UP);
-               checkFinish(gameDoc.square.X, gameDoc.square.Y);
+               //checkFinish(gameDoc.square.X, gameDoc.square.Y);
                Invalidate(true);
             }
-            if(e.KeyCode == Keys.Down)
+            if(e.KeyCode == Keys.Down && gameDoc.square.canDown())
             {
                gameDoc.square.Move(Direction.DOWN);
-               Invalidate(true);
+                //checkFinish(gameDoc.square.X, gameDoc.square.Y);
+                Invalidate(true);
             }
-            if(e.KeyCode == Keys.Left)
+            if(e.KeyCode == Keys.Left && gameDoc.square.canLeft())
             {
               gameDoc.square.Move(Direction.LEFT);
-              Invalidate(true);
+                //checkFinish(gameDoc.square.X, gameDoc.square.Y);
+                Invalidate(true);
             }
 
-            if(e.KeyCode == Keys.Right)
+            if(e.KeyCode == Keys.Right && gameDoc.square.canRight())
             {
               gameDoc.square.Move(Direction.RIGHT);
+                //checkFinish(gameDoc.square.X, gameDoc.square.Y);
               Invalidate(true); 
             }
            

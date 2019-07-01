@@ -49,26 +49,26 @@ namespace TheHardestGame
             g.FillRectangle(b, 632, 252, 30, 30);
             b.Dispose();
         }
-       
+
         public void Move(Direction dir)
         {
-           
+
             if (dir == Direction.RIGHT)
             {
                 Position = new Point(X + Speed, Y);
                 this.dir = dir;
             }
-            if(dir  == Direction.LEFT)
+            if (dir == Direction.LEFT)
             {
                 Position = new Point(X - Speed, Y);
                 this.dir = dir;
             }
-            if(dir == Direction.UP)
+            if (dir == Direction.UP)
             {
                 Position = new Point(X, Y - Speed);
                 this.dir = dir;
             }
-            if(dir == Direction.DOWN)
+            if (dir == Direction.DOWN)
             {
                 Position = new Point(X, Y + Speed);
                 this.dir = dir;
@@ -96,57 +96,40 @@ namespace TheHardestGame
             }
         }
 
-        //public bool isHitWall(PointF prevPoint, PointF currPoint)
-        //{
-        //    float diffX = Math.Abs(prevPoint.X - currPoint.X);
-        //    float diffY = Math.Abs(prevPoint.Y - currPoint.Y);
+        public bool canUp()
+        {
+            if ((Y == 52 && X < 208) || (Y == 252 && (X > 208 && X < 252)) || (Y == 77 && (X > 251 && X < 552)) || (Y == 52 && X > 551))
+            {
+                return false;
+            }
+            return true;
+        }
 
-        //    if (diffX == 0)
-        //    {
-        //        float RangeLow = (prevPoint.Y > currPoint.Y) ? currPoint.Y : prevPoint.Y;
-        //        float RangeHigh = (prevPoint.Y < currPoint.Y) ? currPoint.Y : prevPoint.Y;
+        public bool canLeft()
+        {
+            if (X == 52 || (X == 252 && Y < 252) || (X == 582 && Y > 82) || (X == 552 && Y <77))
+            {
+                return false;
+            }
+            return true;
+        }
 
-        //        if(dirStack.Count > 0)
-        //        {
-        //            Direction curDir = dirStack.Pop();
-        //            if (dir == Direction.RIGHT && curDir != Direction.LEFT)
-        //            {
-        //                return (Math.Abs(X - currPoint.X) <= 15) && Y >= RangeLow && Y <= RangeHigh;
-        //            }
+        public bool canRight()
+        {
+            if ((X == 207 && (Y > 51 && Y < 252)) || (X == 282 && (Y > 232)) || (X == 532 && (Y > 82 && Y < 233)) || (X == 682 && (Y > 51 && Y < 283)))
+            {
+                return false;
+            }
+            return true;
+        }
 
-        //            else if (dir == Direction.RIGHT && curDir == Direction.LEFT)
-        //            {
-        //                return false;
-        //            }
-
-        //            if (dir == Direction.LEFT)
-        //            {
-        //                return (Math.Abs(X - currPoint.X) <= 3) && Y >= RangeLow && Y <= RangeHigh;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (dir == Direction.RIGHT)
-        //            {
-        //                return (Math.Abs(X - currPoint.X) <= 15) && Y >= RangeLow && Y <= RangeHigh;
-        //            }
-        //            if (dir == Direction.LEFT)
-        //            {
-        //                return (Math.Abs(X - currPoint.X) <= 3) && Y >= RangeLow && Y <= RangeHigh;
-        //            }
-        //        }
-               
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        float RangeLow = (prevPoint.X > currPoint.X) ? currPoint.X : prevPoint.X;
-        //        float RangeHigh = (prevPoint.X < currPoint.X) ? currPoint.X : prevPoint.X;
-
-        //        return (Math.Abs(Y - currPoint.Y) <= 15) && X >= RangeLow && X <= RangeHigh;
-        //    }
-
-
-        //}
+        public bool canDown()
+        {
+            if ((Y == 282 && ((X > 51 && X < 283) || (X > 581 && X < 683))) || (Y == 232 && (X > 286 && X < 533)) || (Y == 82 && (X > 536 && X < 578)))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

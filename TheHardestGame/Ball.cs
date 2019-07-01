@@ -13,7 +13,7 @@ namespace TheHardestGame
         public int X { get { return Position.X; } }
         public int Y { get { return Position.Y; } }
         public  int Radius { get { return 10; } }
-        private static int speed = 1;
+        private static int speed = 2;
         public Direction dir { get; set; }
 
         public Ball(Point position, Direction dir)
